@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -58,9 +59,18 @@ func lookup(ip net.IP, blacklist string) ([]net.IP, error) {
 func main() {
 	var (
 		flagNoPtr bool
+		flagBL    string
 	)
 	flag.BoolVar(&flagNoPtr, "noptr", false, "disables PTR lookup")
+	flag.StringVar(&flagBL, "bl", "", "additional DNSBLs to check")
 	flag.Parse()
+
+	if flagBL != "" {
+		lists := strings.Split(flagBL, ",")
+		for _, bl := range lists {
+			dnsbl = append(dnsbl, bl)
+		}
+	}
 
 	if flag.NArg() == 0 {
 		fmt.Fprintf(os.Stderr, "Usage: %s IP\n", os.Args[0])
