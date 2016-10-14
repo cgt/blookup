@@ -67,9 +67,7 @@ func main() {
 
 	if flagBL != "" {
 		lists := strings.Split(flagBL, ",")
-		for _, bl := range lists {
-			dnsbl = append(dnsbl, bl)
-		}
+		dnsbl = append(dnsbl, lists...)
 	}
 
 	if flag.NArg() == 0 {
