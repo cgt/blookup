@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"net"
 	"os"
@@ -54,14 +55,20 @@ func lookup(ip net.IP, blacklist string) ([]net.IP, error) {
 }
 
 func main() {
-	if len(os.Args) < 2 {
+	var (
+		flagNoPtr bool
+	)
+	flag.BoolVar(&flagNoPtr, "noptr", false, "disables PTR lookup")
+	flag.Parse()
+
+	if flag.NArg() == 0 {
 		fmt.Fprintf(os.Stderr, "Usage: %s IP\n", os.Args[0])
 		os.Exit(1)
 	}
 
-	ip := net.ParseIP(os.Args[1])
+	ip := net.ParseIP(flag.Arg(0))
 	if ip == nil {
-		fmt.Fprintf(os.Stderr, "Invalid IP: %s\n", os.Args[1])
+		fmt.Fprintf(os.Stderr, "Invalid IP: %s\n", flag.Arg(0))
 		os.Exit(1)
 	}
 
@@ -86,10 +93,14 @@ func main() {
 		}(wl)
 	}
 
-	go func() {
-		ptr, err := net.LookupAddr(os.Args[1])
-		if err == nil {
-			fmt.Println("PTR", ptr[0])
+	go func(noptr bool) {
+		if !noptr {
+			ptr, err := net.LookupAddr(flag.Arg(0))
+			if err == nil {
+				fmt.Println("PTR", ptr[0])
+			} else {
+				fmt.Println(err)
+			}
 		}
 		var buf bytes.Buffer
 		for l := range listings {
@@ -104,6 +115,6 @@ func main() {
 			}
 			fmt.Print(buf.String())
 		}
-	}()
+	}(flagNoPtr)
 	wg.Wait()
 }
