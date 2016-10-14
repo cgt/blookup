@@ -25,6 +25,7 @@ var dnsbl = []string{
 	"hostkarma.junkemailfilter.com",
 	"ix.dnsbl.manitu.net",
 	"psbl.surriel.com",
+	"spamsources.fabel.dk",
 	"srnblack.surgate.net",
 	"stabl.rbl.webiron.net",
 	"truncate.gbudb.net",
