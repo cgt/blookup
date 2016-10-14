@@ -89,9 +89,16 @@ func main() {
 	for _, bl := range dnsbl {
 		wg.Add(1)
 		go func(blacklist string) {
-			ips, _ := lookup(ip, blacklist)
+			defer wg.Done()
+			ips, err := lookup(ip, blacklist)
+			if err != nil {
+				if dnserr, ok := err.(*net.DNSError); ok && dnserr.Err == "no such host" {
+					return
+				}
+				fmt.Fprintln(os.Stderr, "Lookup error:", err)
+				return
+			}
 			listings <- Listing{TBlacklist, blacklist, ips}
-			wg.Done()
 		}(bl)
 	}
 
