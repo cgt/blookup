@@ -36,6 +36,7 @@ var dnswl = []string{
 	"list.dnswl.org",
 	"swl.spamhaus.org",
 	"wl.mailspike.net",
+	"dnswl.inps.de",
 }
 
 type ListType string
