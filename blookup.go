@@ -23,7 +23,6 @@ var dnsbl = []string{
 	"dnsbl.cobion.com",
 	"dnsbl.inps.de",
 	"dnsbl.sorbs.net",
-	"hostkarma.junkemailfilter.com",
 	"ix.dnsbl.manitu.net",
 	"psbl.surriel.com",
 	"spamsources.fabel.dk",
