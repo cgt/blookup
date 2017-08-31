@@ -15,7 +15,6 @@ var dnsbl = []string{
 	"b.barracudacentral.org",
 	"bl.blocklist.de",
 	"bl.mailspike.net",
-	"bl.spamcannibal.org",
 	"bl.spamcop.net",
 	"bl.spameatingmonkey.net",
 	"db.wpbl.info",
@@ -34,7 +33,6 @@ var dnsbl = []string{
 
 var dnswl = []string{
 	"list.dnswl.org",
-	"swl.spamhaus.org",
 	"wl.mailspike.net",
 	"dnswl.inps.de",
 }
